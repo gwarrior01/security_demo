@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -30,13 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService users() {
         UserDetails user = User.builder()
                 .username("user")
-                .password("$2a$12$0U9GRmh8/fC.Q3M9kNEPQeBjHCG9Izld2woffGJNFxSpCxbMYbrRy")
+                .password("$2a$12$0U9GRmh8/fC.Q3M9kNEPQeBjHCG9Izld2woffGJNFxSpCxbMYbrRy") //100
                 .roles("USER")
                 .build();
 
         UserDetails admin = User.builder()
                 .username("admin")
-                .password("$2a$12$WxD.MfyDXu44m24PjwEy2e7BJbk71ioMH7D7k/PqYUcdO4S3PTz8u")
+                .password("$2a$12$WxD.MfyDXu44m24PjwEy2e7BJbk71ioMH7D7k/PqYUcdO4S3PTz8u") //101
                 .roles("USER", "ADMIN")
                 .build();
 
