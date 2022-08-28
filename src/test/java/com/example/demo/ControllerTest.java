@@ -37,7 +37,7 @@ public class ControllerTest {
     @Test
     void successTest() {
         given()
-                .auth().preemptive().basic("user", "100")
+                .auth().preemptive().basic("john", "100")
                 .when()
                 .get("/hello")
                 .then()
