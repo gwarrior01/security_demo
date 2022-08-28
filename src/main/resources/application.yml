@@ -4,12 +4,10 @@ spring:
     username: postgres
     password: homer_forever
     driverClassName: org.postgresql.Driver
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: true
-        ddl-auto: none
   sql:
     init:
       mode: always
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    drop-first: true
