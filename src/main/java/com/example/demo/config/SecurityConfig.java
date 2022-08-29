@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService users() {
         UserDetails user = User.builder()
-                .username("user")
+                .username("john")
                 .password("$2a$12$0U9GRmh8/fC.Q3M9kNEPQeBjHCG9Izld2woffGJNFxSpCxbMYbrRy") //100
                 .roles("USER")
                 .build();
