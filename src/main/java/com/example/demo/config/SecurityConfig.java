@@ -19,16 +19,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
+//                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin();
     }
 
     @Bean
     public UserDetailsService users() {
         UserDetails user = User.builder()
-                .username("user")
+                .username("john")
                 .password("$2a$12$0U9GRmh8/fC.Q3M9kNEPQeBjHCG9Izld2woffGJNFxSpCxbMYbrRy") //100
                 .roles("USER")
                 .build();
