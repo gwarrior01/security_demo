@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cors example</title>
+    <script>
+          fetch(
+          'http://localhost:8080/hello',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: 'Sanya'})
+          }
+          ).then(resp => resp.text()).then(console.log)
+
+          fetch(
+          'http://localhost:8080/hello',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'text/plain'
+            },
+            body: 'Sanya'
+          }
+          ).then(resp => resp.text()).then(console.log)
+    </script>
+</head>
+<body>
+    <img src="http://localhost:8080">
+</body>
+</html>
