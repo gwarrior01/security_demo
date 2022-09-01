@@ -16,14 +16,14 @@ import java.security.Principal;
 public class HelloController {
 
     @GetMapping("/")
-    @CrossOrigin(origins = "https://www.youtube.com")
+    @CrossOrigin(origins = "*")
     public String start() {
         System.out.println("Start was invoke");
         return "start";
     }
 
     @PostMapping("/hello")
-    @CrossOrigin(origins = "https://www.youtube.com", allowedHeaders = "Content-Type", methods = RequestMethod.POST)
+//    @CrossOrigin(origins = "https://www.youtube.com", allowedHeaders = "Content-Type", methods = RequestMethod.POST)
     public String hello(@RequestBody HelloRequest request) {
         System.out.println("Hello was invoke");
         return "Hello, " + request.getName();
