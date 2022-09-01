@@ -17,22 +17,21 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.List;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors(c -> {
-            CorsConfigurationSource source = request -> {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(
-                        List.of("*"));
-                config.setAllowedMethods(
-                        List.of("GET", "POST"));
-                return config;
-            };
-            c.configurationSource(source);
-        });
+//        http.cors(c -> {
+//            CorsConfigurationSource source = request -> {
+//                CorsConfiguration config = new CorsConfiguration();
+//                config.setAllowedOrigins(
+//                        List.of("*"));
+//                config.setAllowedMethods(
+//                        List.of("GET", "POST"));
+//                return config;
+//            };
+//            c.configurationSource(source);
+//        });
         http.csrf().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll();
