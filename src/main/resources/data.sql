@@ -1,1 +1,0 @@
-insert into person (username, birth_year, password) values ('test_user1', 1995, 'password');

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Two Factor QR Code</title>
+</head>
+<body>
+<h2>Scan QR Code using Google Authenticator, enter code to verify</h2>
+
+<div class="row">
+  <div class="col-md-12">
+    <img th:src="${googleurl}"/>
+  </div>
+</div>
+
+</body>
+</html>

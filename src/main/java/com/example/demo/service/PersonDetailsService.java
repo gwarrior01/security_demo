@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.repository.PersonRepository;
-import com.example.demo.security.PersonDetails;
+import com.example.demo.security.TwoFaUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,7 @@ public class PersonDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return personRepository.findByUsername(username)
-                .map(PersonDetails::new)
+                .map(TwoFaUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
