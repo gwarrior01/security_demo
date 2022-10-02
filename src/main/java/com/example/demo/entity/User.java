@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,14 +11,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 public class User implements Google2FaCompatible {
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +36,13 @@ public class User implements Google2FaCompatible {
 
     private String password;
 
-    private String email;
-
     @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles;
+    private Collection<Role> roles = new HashSet<>();
 
     private Boolean useGoogle2Fa;
 

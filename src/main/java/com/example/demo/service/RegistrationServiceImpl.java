@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Person;
-import com.example.demo.repository.PersonRepository;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +12,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public Optional<Person> loadUserByUsername(String username) {
-        return personRepository.findByUsername(username);
+    public Optional<User> loadUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
     @Transactional
-    public void register(Person person) {
-        personRepository.save(person);
+    public void register(User person) {
+        userRepository.save(person);
     }
 }

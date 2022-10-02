@@ -3,7 +3,6 @@ package com.example.demo.security;
 import com.example.demo.entity.Google2FaCompatible;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 public class TwoFaUserDetails implements UserDetails, Google2FaCompatible {
 
     private final User user;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public TwoFaUserDetails(User user) {
         this.user = user;

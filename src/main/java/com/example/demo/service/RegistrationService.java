@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Person;
+import com.example.demo.entity.User;
 
 import java.util.Optional;
 
 public interface RegistrationService {
 
-    Optional<Person> loadUserByUsername(String username);
+    Optional<User> loadUserByUsername(String username);
 
-    void register(Person person);
+    void register(User person);
 }

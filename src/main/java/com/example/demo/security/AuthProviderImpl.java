@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.service.PersonDetailsService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,12 +16,12 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class AuthProviderImpl implements AuthenticationProvider {
 
-    private final PersonDetailsService personDetailsService;
+    private final UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        UserDetails personDetails = personDetailsService.loadUserByUsername(username);
+        UserDetails personDetails = userService.loadUserByUsername(username);
         String password = authentication.getCredentials().toString();
         if (!password.equals(personDetails.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
