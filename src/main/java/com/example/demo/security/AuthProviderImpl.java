@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -17,13 +18,14 @@ import java.util.Collections;
 public class AuthProviderImpl implements AuthenticationProvider {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         UserDetails personDetails = userService.loadUserByUsername(username);
         String password = authentication.getCredentials().toString();
-        if (!password.equals(personDetails.getPassword())) {
+        if (!passwordEncoder.matches(password, personDetails.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
         }
         return new UsernamePasswordAuthenticationToken(personDetails, password, Collections.emptyList());

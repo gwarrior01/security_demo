@@ -8,5 +8,5 @@ public interface RegistrationService {
 
     Optional<User> loadUserByUsername(String username);
 
-    void register(User person);
+    void register(String username, String rawPassword);
 }

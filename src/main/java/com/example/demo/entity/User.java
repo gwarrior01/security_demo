@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class User implements Google2FaCompatible {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.useGoogle2Fa = false;
     }
 
     @Id
@@ -44,7 +46,9 @@ public class User implements Google2FaCompatible {
     )
     private Collection<Role> roles = new HashSet<>();
 
+    @Column(name = "use_google_2fa")
     private Boolean useGoogle2Fa;
 
+    @Column(name = "google_2fa_secret")
     private String google2FaSecret;
 }
