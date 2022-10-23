@@ -19,7 +19,7 @@ import java.util.HashSet;
 @Table(name = "users")
 @Getter
 @Setter
-public class User implements Google2FaCompatible {
+public class User {
 
     public User() {
     }

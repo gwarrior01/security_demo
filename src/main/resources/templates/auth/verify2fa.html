@@ -9,10 +9,10 @@
 <div class="row">
     <div class="col-md-4">
 
-        <form th:action="@{/user/verify2fa}" class="form-horizontal" id="verify-code-form" method="post">
+        <form th:action="@{/auth/verify2fa}" class="form-horizontal" id="verify-code-form" method="post">
             <div class="form-group has-feedback">
                 <label class="control-label" for="verifyCode">Enter Code</label>
-                <input class="form-control" type="number" id="verifyCode" name="verifyCode" autofocus="true"
+                <input class="form-control" type="text" id="verifyCode" name="verifyCode" autofocus="true"
                        autocomplete="false"/>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             </div>

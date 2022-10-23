@@ -14,6 +14,7 @@ public class TwoFaUserDetails implements UserDetails, Google2FaCompatible {
 
     private final User user;
     private Collection<? extends GrantedAuthority> authorities;
+    private boolean is2faRequired = true;
 
     public TwoFaUserDetails(User user) {
         this.user = user;
@@ -70,5 +71,18 @@ public class TwoFaUserDetails implements UserDetails, Google2FaCompatible {
     @Override
     public String getGoogle2FaSecret() {
         return this.user.getGoogle2FaSecret();
+    }
+
+    @Override
+    public void setUseGoogle2Fa(boolean isUse) {
+        this.user.setUseGoogle2Fa(isUse);
+    }
+
+    public boolean is2faRequired() {
+        return is2faRequired;
+    }
+
+    public void set2faRequired(boolean is2faRequired) {
+        this.is2faRequired = is2faRequired;
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.web;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.TwoFaUserDetails;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
 import lombok.RequiredArgsConstructor;
@@ -40,19 +41,35 @@ public class AuthController {
 
     @PostMapping("/register2fa")
     public String confirm2Fa(@RequestParam Integer verifyCode) {
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User savedUser = userRepository.findByUsername(username)
+        TwoFaUserDetails securityUser =
+                (TwoFaUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User savedUser = userRepository.findByUsername(securityUser.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(":("));
+        if (googleAuthenticator.authorizeUser(securityUser.getUsername(), verifyCode)) {
+            securityUser.setUseGoogle2Fa(true);
+            securityUser.set2faRequired(false);
+            savedUser.setUseGoogle2Fa(true);
+            userRepository.save(savedUser);
+            return "redirect:/";
+        }
 
-        if (googleAuthenticator.authorizeUser(username, verifyCode)) {
-//            savedUser.setUseGoogle2Fa(true);
-//            userRepository.save(savedUser);
+        return "auth/register2fa";
+    }
 
-            return "/index";
+    @GetMapping("/verify2fa")
+    public String verify2fa() {
+        return "auth/verify2fa";
+    }
+
+    @PostMapping("/verify2fa")
+    public String verify2fa(@RequestParam Integer verifyCode) {
+        TwoFaUserDetails securityUser =
+                (TwoFaUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (googleAuthenticator.authorizeUser(securityUser.getUsername(), verifyCode)) {
+            securityUser.set2faRequired(false);
+            return "redirect:/";
         } else {
-            // bad code
-            return "auth/register2fa";
+            return "auth/verify2fa";
         }
     }
 }
