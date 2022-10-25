@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureForwardUrl("/auth/login?error")
                 .and()
                 .logout().logoutSuccessUrl("/");
+
     }
 
     @Bean
