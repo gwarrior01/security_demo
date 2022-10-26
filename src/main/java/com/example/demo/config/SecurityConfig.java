@@ -1,20 +1,22 @@
 package com.example.demo.config;
 
 import com.example.demo.security.AuthProviderImpl;
-import com.example.demo.security.Google2faFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthProviderImpl authProvider;
-    private final Google2faFilter google2faFilter;
+    private final UserDetailsService userDetailsService;
+    private final JdbcTokenRepositoryImpl tokenRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -24,16 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/auth/login", "/registration").anonymous()
-                .anyRequest().authenticated()
+                .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .addFilterAfter(google2faFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
+                .formLogin()
                 .and()
-                .logout()
-                .logoutUrl("/auth/logout")
-                .logoutSuccessUrl("/");
+                .rememberMe()
+                .userDetailsService(userDetailsService)
+                .key("homer_not_secret")
+//                .tokenRepository(tokenRepository)
+        ;
     }
 }

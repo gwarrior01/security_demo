@@ -15,12 +15,6 @@
             <column name="password" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="use_google_2fa" type="boolean">
-                <constraints nullable="false"/>
-            </column>
-            <column name="google_2fa_secret" type="text">
-                <constraints nullable="true"/>
-            </column>
         </createTable>
         <addAutoIncrement tableName="users" columnName="id"/>
 
@@ -63,7 +57,6 @@
         <insert tableName="users">
             <column name="username" value="john"/>
             <column name="password" value="$2a$12$0U9GRmh8/fC.Q3M9kNEPQeBjHCG9Izld2woffGJNFxSpCxbMYbrRy"/>
-            <column name="use_google_2fa" value="false"/>
         </insert>
 
         <insert tableName="roles">
@@ -85,6 +78,21 @@
             <column name="user_id" value="1"/>
             <column name="role_id" value="2"/>
         </insert>
+
+        <createTable tableName="persistent_logins">
+            <column name="username" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="series" type="varchar(64)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_used" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
     </changeSet>
 </databaseChangeLog>

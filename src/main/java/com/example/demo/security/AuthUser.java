@@ -1,6 +1,5 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.Google2FaCompatible;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,13 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class TwoFaUserDetails implements UserDetails, Google2FaCompatible {
+public class AuthUser implements UserDetails {
 
     private final User user;
     private Collection<? extends GrantedAuthority> authorities;
-    private boolean is2faRequired = true;
 
-    public TwoFaUserDetails(User user) {
+    public AuthUser(User user) {
         this.user = user;
         this.authorities = mapRolesToAuthorities(user.getRoles());
     }
@@ -63,26 +61,4 @@ public class TwoFaUserDetails implements UserDetails, Google2FaCompatible {
         return true;
     }
 
-    @Override
-    public Boolean getUseGoogle2Fa() {
-        return this.user.getUseGoogle2Fa();
-    }
-
-    @Override
-    public String getGoogle2FaSecret() {
-        return this.user.getGoogle2FaSecret();
-    }
-
-    @Override
-    public void setUseGoogle2Fa(boolean isUse) {
-        this.user.setUseGoogle2Fa(isUse);
-    }
-
-    public boolean is2faRequired() {
-        return is2faRequired;
-    }
-
-    public void set2faRequired(boolean is2faRequired) {
-        this.is2faRequired = is2faRequired;
-    }
 }

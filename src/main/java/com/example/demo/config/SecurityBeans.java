@@ -1,31 +1,25 @@
 package com.example.demo.config;
 
-import com.warrenstrange.googleauth.GoogleAuthenticator;
-import com.warrenstrange.googleauth.ICredentialRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityBeans {
 
     @Bean
+    public JdbcTokenRepositoryImpl tokenRepository(DataSource dataSource) {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public GoogleAuthenticator googleAuthenticator(ICredentialRepository credentialRepository) {
-        GoogleAuthenticator googleAuthenticator = new GoogleAuthenticator();
-        googleAuthenticator.setCredentialRepository(credentialRepository);
-        return googleAuthenticator;
-    }
-
-    @Bean
-    public AuthenticationTrustResolver authenticationTrustResolver() {
-        return new AuthenticationTrustResolverImpl();
     }
 }

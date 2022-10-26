@@ -27,7 +27,6 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.useGoogle2Fa = false;
     }
 
     @Id
@@ -45,10 +44,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles = new HashSet<>();
-
-    @Column(name = "use_google_2fa")
-    private Boolean useGoogle2Fa;
-
-    @Column(name = "google_2fa_secret")
-    private String google2FaSecret;
 }
