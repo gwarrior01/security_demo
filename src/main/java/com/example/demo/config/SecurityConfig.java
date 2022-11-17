@@ -1,39 +1,47 @@
 package com.example.demo.config;
 
-import com.example.demo.security.AuthProviderImpl;
-import com.example.demo.security.Google2faFilter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
 
-    private final AuthProviderImpl authProvider;
-    private final Google2faFilter google2faFilter;
+    @Bean
+    public UserDetailsService userDetails(PasswordEncoder passwordEncoder) {
+        InMemoryUserDetailsManager uds = new InMemoryUserDetailsManager();
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);
+        UserDetails u1 = User.builder()
+                .username("john")
+                .password(passwordEncoder.encode("12345"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails u2 = User.builder()
+                .username("bill")
+                .password(passwordEncoder.encode("12345"))
+                .roles("USER")
+                .build();
+
+        uds.createUser(u1);
+        uds.createUser(u2);
+
+        return uds;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/auth/login", "/registration").anonymous()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterAfter(google2faFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
-                .and()
-                .logout()
-                .logoutUrl("/auth/logout")
-                .logoutSuccessUrl("/");
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
     }
 }
